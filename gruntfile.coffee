@@ -11,6 +11,7 @@ module.exports = (grunt) ->
               '   Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>' +
               ' - Licensed <%= _.pluck(pkg.license, "type").join(", ") %> */\n'
 
+
     source:
       # CoffeeScript
       core: [
