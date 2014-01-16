@@ -32,11 +32,20 @@ class Atoms.Class.Molecule extends Atoms.Core.Module
           @[key] = [] unless @[key]?
           @[key].push @_atomInstance key, className, attributes
 
+  tunnel: (eventName) ->
+    console.log "Tunnel :: #{eventName}"
+
+  bubble: (event) ->
+    console.log "Tunnel :: #{eventName}"
+
+  listen: (event) ->
+    console.log "Listen for event :: #{eventName}"
 
   _atomInstance: (key, className, attributes) ->
     attributes.parent = @el
     attributes.events = attributes.events or @attributes.events?[key] or @default.events?[key] or []
 
     instance = new Atoms.Atom[className] attributes
+    instance.parentClass = @
     if attributes.events.length > 0 then @bindList instance, attributes.events
     instance

@@ -36,6 +36,15 @@ class Atoms.Class.Organism extends Atoms.Core.Module
     do @output
     if @attributes.children then @_createChildren()
 
+  tunnel: (eventName) ->
+    console.log "Tunnel :: #{eventName}"
+
+  bubble: (event) ->
+    console.log "Tunnel :: #{eventName}"
+
+  listen: (event) ->
+    console.log "Listen for event :: #{eventName}"
+
   _createChildren: ->
     for child in @attributes.children
       for attribute of child
@@ -50,6 +59,7 @@ class Atoms.Class.Organism extends Atoms.Core.Module
           obj = child[attribute]
           obj.parent = @el
           instance = new classInstance obj
+          instance.parentClass = @
           @[className].push instance
 
           if obj.events? then @bindList instance, obj.events
