@@ -17,7 +17,14 @@ class Atoms.Class.Atom extends Atoms.Core.Module
     super
     @type = "Atom"
     @output()
+    @listenEvents()
 
     if @attributes.events
       for evt in @attributes.events
-        @el.on evt, do (evt) => (event) => @trigger evt, event, @
+        @el.on evt, do (evt) => (event) =>
+          @bubble evt, event, @
+
+  listenEvents: ->
+    @listens = @listens or {}
+    for eventName, callbackName of @listens
+      @listen eventName, @[callbackName]

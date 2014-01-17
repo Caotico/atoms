@@ -11,9 +11,9 @@ class First extends Atoms.Organism.Article
 
   render: ->
     super
-    new Atoms.App.Section.Form {parent: @el}, "source/first/form.yml"
+    (new Atoms.App.Section.Form parent: @el, "source/first/form.yml").parentClass = @
 
-  _log: (method, event) -> console.log "article > #{method}", event
+  _log: (method, event) -> #console.log "article > #{method}", event
 
 
 first = new First parent: document.body

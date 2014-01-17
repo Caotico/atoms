@@ -31,6 +31,7 @@ class Atoms.Class.Organism extends Atoms.Core.Module
     if scaffold then yaml = @_getScaffold(scaffold)
     @attributes = Atoms.Core.Helper.mix @attributes, yaml
     yaml = undefined
+    @listenEvents()
 
   render: ->
     do @output
@@ -63,3 +64,8 @@ class Atoms.Class.Organism extends Atoms.Core.Module
       dataType: "text"
       error   : -> throw "Error loading scaffold in #{url}"
     yaml = YAML.parse scaffold.responseText
+
+  listenEvents: ->
+    @listens = @listens or {}
+    for eventName, callbackName of @listens
+      @listen eventName, @[callbackName]

@@ -19,6 +19,7 @@ class Atoms.Class.Molecule extends Atoms.Core.Module
     @type = "Molecule"
     @output()
     @chemistry()
+    @listenEvents()
 
 
   chemistry: (elements) ->
@@ -38,5 +39,11 @@ class Atoms.Class.Molecule extends Atoms.Core.Module
 
     instance = new Atoms.Atom[className] attributes
     instance.parentClass = @
-    if attributes.events.length > 0 then @bindList instance, attributes.events
+    if attributes.events.length > 0
+      @bindList instance, attributes.events
     instance
+
+  listenEvents: ->
+    @listens = @listens or {}
+    for eventName, callbackName of @listens
+      @listen eventName, @[callbackName]

@@ -23,7 +23,6 @@ Atoms.Core.Event =
     calls = @hasOwnProperty('events') and @events or = {}
     for event in events
       event = @_parseName event
-      console.log event
       calls[event] or = []
       calls[event].push callback
 
@@ -47,8 +46,9 @@ Atoms.Core.Event =
                       handler.
   ###
   trigger: (event, args...) ->
-    if @parentClass then console.debug "Trigger #{event} :: (from #{@type} to #{@parentClass.type})"
-    else console.error "No parent assigned for -> #{@type}:#{@constructor.name}"
+    if not @parentClass
+      console.warn "WARNING! No parent found for #{@type}:#{@constructor.name}"
+
     event = @_parseName event
     events = @hasOwnProperty('events') and @events?[event]
     return unless events
@@ -57,17 +57,30 @@ Atoms.Core.Event =
       break if event.apply(@, args) is false
 
   listen: (event, callback) ->
-    eventNS = @_parseName event
-
+    eventNS = "#{event}"
+    @events = @events or {}
+    @events[eventNS] = @events[eventNS] or []
+    @events[eventNS].push callback
 
   bubble: (event, args...) ->
-    eventName = "#{@parentClass.uid}:"
-    event = @_parseName event
-    events = @hasOwnProperty('events') and @events?[event]
-    return unless events
-    args.push @
-    for event in events
-      break if event.apply(@, args) is false
+    if not @parentClass
+      console.warn "WARNING BUBBLING! #{@type}:#{@constructor.name} parent class??"
+
+    eventNS = "#{@constructor.name}:#{event}"
+    return unless @parentClass.events?[eventNS]?
+    for callback in @parentClass.events[eventNS]
+      break if callback.apply(callback, args) is false
+    @parentClass.bubble event, args
+
+
+  #@TODO :: How I Know who are my children?
+  tunnel: (event, args...) ->
+    eventNS = "#{@constructor.name}:#{event}"
+    for child in @attributes.children
+      if child.events[eventNS]
+        child.events[eventNS].apply(child.events[eventNS], args)
+
+
 
   ###
   Attach a handler to a list of a events for the class.
@@ -79,9 +92,9 @@ Atoms.Core.Event =
   bindList: (instance, events) ->
     class_lower = instance.constructor.name.toLowerCase()
     for event in events
+      event = "#{instance.constructor.name}:#{event}"
       callback_name = "#{class_lower}#{Atoms.Core.Helper.className(event)}"
       instance.bind event, @[callback_name]
 
   # Private Methods
-  _parseName: (event, uid="") ->
-    ("#{@type}:#{@constructor.name}:#{event}").toLowerCase()
+  _parseName: (event) -> "#{@type}:#{@constructor.name}:#{event}"
