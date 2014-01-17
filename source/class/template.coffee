@@ -17,7 +17,7 @@ class Atoms.Class.Template extends Atoms.Core.Module
 
   constructor: (@attributes) ->
     super
-    @constructor.type = "Template"
+    @type = "Template"
 
     for key of @attributes
       if key in @constructor.elements

@@ -15,15 +15,9 @@ class Atoms.Class.Atom extends Atoms.Core.Module
 
   constructor: (@attributes) ->
     super
-    @constructor.type = "Atom"
+    @type = "Atom"
     @output()
 
     if @attributes.events
       for evt in @attributes.events
         @el.on evt, do (evt) => (event) => @trigger evt, event, @
-
-  bubble: (event) ->
-    console.log "Tunnel :: #{eventName}"
-
-  listen: (event) ->
-    console.log "Listen for event :: #{eventName}"

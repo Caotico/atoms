@@ -16,7 +16,7 @@ class Atoms.Class.Molecule extends Atoms.Core.Module
   constructor: (@attributes) ->
     super
     @default = children: [] unless @default
-    @constructor.type = "Molecule"
+    @type = "Molecule"
     @output()
     @chemistry()
 
@@ -31,15 +31,6 @@ class Atoms.Class.Molecule extends Atoms.Core.Module
 
           @[key] = [] unless @[key]?
           @[key].push @_atomInstance key, className, attributes
-
-  tunnel: (eventName) ->
-    console.log "Tunnel :: #{eventName}"
-
-  bubble: (event) ->
-    console.log "Tunnel :: #{eventName}"
-
-  listen: (event) ->
-    console.log "Listen for event :: #{eventName}"
 
   _atomInstance: (key, className, attributes) ->
     attributes.parent = @el

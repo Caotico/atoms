@@ -27,23 +27,14 @@ class Atoms.Class.Organism extends Atoms.Core.Module
 
   constructor: (@attributes, scaffold) ->
     super
+    @type = "Organism"
     if scaffold then yaml = @_getScaffold(scaffold)
     @attributes = Atoms.Core.Helper.mix @attributes, yaml
     yaml = undefined
-    @constructor.type = @constructor.type or "Organism"
 
   render: ->
     do @output
     if @attributes.children then @_createChildren()
-
-  tunnel: (eventName) ->
-    console.log "Tunnel :: #{eventName}"
-
-  bubble: (event) ->
-    console.log "Tunnel :: #{eventName}"
-
-  listen: (event) ->
-    console.log "Listen for event :: #{eventName}"
 
   _createChildren: ->
     for child in @attributes.children

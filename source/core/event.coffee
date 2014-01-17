@@ -23,6 +23,7 @@ Atoms.Core.Event =
     calls = @hasOwnProperty('events') and @events or = {}
     for event in events
       event = @_parseName event
+      console.log event
       calls[event] or = []
       calls[event].push callback
 
@@ -46,6 +47,21 @@ Atoms.Core.Event =
                       handler.
   ###
   trigger: (event, args...) ->
+    if @parentClass then console.debug "Trigger #{event} :: (from #{@type} to #{@parentClass.type})"
+    else console.error "No parent assigned for -> #{@type}:#{@constructor.name}"
+    event = @_parseName event
+    events = @hasOwnProperty('events') and @events?[event]
+    return unless events
+    args.push @
+    for event in events
+      break if event.apply(@, args) is false
+
+  listen: (event, callback) ->
+    eventNS = @_parseName event
+
+
+  bubble: (event, args...) ->
+    eventName = "#{@parentClass.uid}:"
     event = @_parseName event
     events = @hasOwnProperty('events') and @events?[event]
     return unless events
@@ -67,5 +83,5 @@ Atoms.Core.Event =
       instance.bind event, @[callback_name]
 
   # Private Methods
-  _parseName: (event) ->
-    ("#{@constructor.type}_#{@constructor.name}_#{event}").toLowerCase()
+  _parseName: (event, uid="") ->
+    ("#{@type}:#{@constructor.name}:#{event}").toLowerCase()

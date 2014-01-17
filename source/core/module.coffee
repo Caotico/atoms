@@ -12,9 +12,7 @@ MODULE_KEYWORDS = ['included', 'extended']
 
 class Atoms.Core.Module
 
-  constructor: ->
-    @uid = guid()
-    @name = @constructor.name
+  constructor: -> @uid = guid()
 
   ###
   Extends the contents of an object onto the class to provide new static methods.
