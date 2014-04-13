@@ -43,6 +43,7 @@ Now you can download the project code and get all the necessary NPM modules:
 git clone https://github.com/tapquo/atoms.git my-atoms
 git submodule foreach git pull origin master
 git pull && git submodule init && git submodule update && git submodule status
+git submodule foreach "(git checkout master; git pull)"
 npm install
 ```
 
