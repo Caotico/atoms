@@ -10,3 +10,18 @@
 [submodule "components/QuoJS"]
 	path = components/QuoJS
 	url = https://github.com/soyjavi/QuoJS
+[submodule "extension/gmaps"]
+	path = extension/gmaps
+	url = https://github.com/tapquo/atoms-app-gmaps
+[submodule "extension/carousel"]
+	path = extension/carousel
+	url = https://github.com/tapquo/atoms-app-carousel
+[submodule "extension/appnima"]
+	path = extension/appnima
+	url = https://github.com/tapquo/atoms-app-appnima
+[submodule "theme"]
+	path = theme
+	url = https://github.com/tapquo/atoms-app-theme.git
+[submodule "components/quojs"]
+	path = components/quojs
+	url = https://github.com/soyjavi/package-quojs.git
